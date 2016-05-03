@@ -51,9 +51,9 @@ meal1.addDishToMeal(dish1);
 meal1.addDishToMeal(dish2);
 meal1.addDishToMeal(dish3);
 
-meal2.addDishtoMeal(dish1);
-meal2.addDishtoMeal(dish2);
-meal2.addDishtoMeal(dish3);
+meal2.addDishToMeal(dish1);
+meal2.addDishToMeal(dish2);
+meal2.addDishToMeal(dish3);
 
 var totalCost1 = meal1.calculateTotalAmount();
 var totalCost2 = meal2.calculateTotalAmount();
