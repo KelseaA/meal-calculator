@@ -1,37 +1,71 @@
 // sets up diner object
 var Diner = function(dinerName){
 	this.dinerName = dinerName;
+  var meal = new Meal();
+  this.getMealTotal = function(){
+    return meal.calculateTotalAmount();
+  }
+  this.addDishToMeal = function(dish){
+    meal.addDish(dish);
+  }
 };
 
 // sets up meal object
-var Meal = function(name){
-	this.name = name;
-	this.dishes = [];
-	this.totalAmount = 0;
+var Meal = function(){
+	var dishes = [];
   // adds dishes to dishes array in meal
-  	this.addDishToMeal = function(dish){
-  		this.dishes.push(dish);
+  	this.addDish = function(dish){
+  		dishes.push(dish);
   	};
 
 // calculates cost of dishes in a meal and adds to total
 	this.calculateTotalAmount = function (){
 		var total = 0;
 
-		this.dishes.forEach(function(item){
-			total += item.price;
+		dishes.forEach(function(dish){
+			total += dish.getPricePlusTax();
 		});
 
-		this.totalAmount = total;
+    return total;
 	};
 };
 
 // sets up dish object
-var Dish = function(dishName, price){
-	this.dishName = dishName;
-	this.price = price;
+var Dish = function(dishName, dishPrice){
+	var name = dishName;
+	var price = dishPrice;
+  var tax = 0.07;
+  this.getPrice = function(){
+    return price;
+  }
+  this.getName = function(){
+    return name;
+  }
+  this.getPricePlusTax = function(){
+    return price + (price * tax);
+  }
 };
 
-
+var Bill = function(){
+  var diners = [];
+  var tip = 0.15;
+  this.addDiner = function(diner){
+    diners.push(diner);
+  }
+  this.calculateTotalAmount = function(){
+    var total = 0;
+    diners.forEach(function(diner){
+      total += diner.getMealTotal();
+    });
+	  return total;
+  }
+  this.calculateTotalAmountPlusTip = function(){
+    return this.calculateTotalAmount() + (this.calculateTotalAmount() * tip);
+  }
+  this.printBillTotal = function(){
+    console.log(this.calculateTotalAmountPlusTip());
+  }
+}
 
 
 // function calls
@@ -42,32 +76,20 @@ var dish3 = new Dish("Pizza", 13);
 var diner1 = new Diner("Ricky Bobby");
 var diner2 = new Diner("John Doe");
 
-var meal1 = new Meal(diner1);
-var meal2 = new Meal(diner2);
-console.log(meal1);
-console.log(meal2);
+diner1.addDishToMeal(dish1);
+diner1.addDishToMeal(dish2);
+diner1.addDishToMeal(dish3);
 
-meal1.addDishToMeal(dish1);
-meal1.addDishToMeal(dish2);
-meal1.addDishToMeal(dish3);
+diner2.addDishToMeal(dish1);
+diner2.addDishToMeal(dish2);
+diner2.addDishToMeal(dish3);
 
-meal2.addDishToMeal(dish1);
-meal2.addDishToMeal(dish2);
-meal2.addDishToMeal(dish3);
+var bill = new Bill();
 
-var totalCost1 = meal1.calculateTotalAmount();
-var totalCost2 = meal2.calculateTotalAmount();
+bill.addDiner(diner1);
+bill.addDiner(diner2);
 
-console.log(meal1.totalAmount);
-console.log(meal2.totalAmount);
+bill.printBillTotal();
 
 
-// Split the bill fairly among the diners
 
-// Each diner should pay the tax on their own food
-
-// Each diner should pay an equal share of the tip
-
-// Print out a total bill
-
-// Print a breakdown for what each diner owes
